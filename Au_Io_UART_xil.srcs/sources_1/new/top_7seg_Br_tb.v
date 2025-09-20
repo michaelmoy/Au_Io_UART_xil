@@ -37,7 +37,7 @@ module top_7seg_Br_tb(
     reg [7:0] tx_data;
 	reg tx_send;
 	wire tx_empty;
-	wire tx_err;
+//	wire tx_err;
      
     // Output
 	wire[7:0] io_seg;
@@ -114,7 +114,7 @@ IoBd_Uart_TX Uart_TX(
     );
     
     initial begin
-
+        tx_data = 8'h55;
         rst = 1;
         clk = 0;
         #50;
@@ -134,7 +134,6 @@ IoBd_Uart_TX Uart_TX(
         clk = 1;
         #50;
         clk = 0;
-        tx_data = 8'h41;
         tx_send = 1;
         #50;
         repeat (4) begin
@@ -142,17 +141,11 @@ IoBd_Uart_TX Uart_TX(
             #50;
         end
         
-        repeat (100) begin
-            clk =  ! clk;
-            #50;
-            tx_send = 0;
-        end
-   
-
+        tx_send = 0;
+            
         repeat (100000) begin
             clk =  ! clk;
             #50;
-            tx_send = 0;
         end
 
         #200;

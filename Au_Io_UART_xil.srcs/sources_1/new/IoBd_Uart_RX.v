@@ -41,6 +41,7 @@ always @(posedge clk or posedge rst) begin
 		running <= 0;
 		data_avail <= 0;
 		data_out <= 8'h00;
+		data_error <= 0;
 		end
 	else begin
 		if( running == 0 ) begin
@@ -74,8 +75,10 @@ always @(posedge clk or posedge rst) begin
 			data_out[7] <= rx_in;
 			end
 		if( running == 1 && wait_counter == (433 + (866 * 9)) ) begin
-			running <= 0;
 			data_error <= ~rx_in;
+			end
+		if( running == 1 && wait_counter == (433 + (866 * 9) + 433) ) begin
+			running <= 0;
 			data_avail <= 1;
 			end
 		end
